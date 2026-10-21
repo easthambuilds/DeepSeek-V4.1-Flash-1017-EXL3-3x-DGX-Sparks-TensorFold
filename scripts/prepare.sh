@@ -121,7 +121,8 @@ note "same binaries and NCCL on all three ($want); every library resolves"
 step "3/8 Kit and RoPE tables (pool $POOL: $ROPE_ROWS rows)"
 REF=$DATA_DIR/rope-ref
 if [ ! -f "$REF/rope.json" ]; then
-  rm -rf "$REF"; mkdir -p "$REF"
+  rm -rf "$REF"; mkdir -p "$REF/models/TF351"
+  cp "$B/kit/models/TF351/config.json" "$REF/models/TF351/"   # make_rope.py reads the RoPE settings from the kit's config
   note "computing the $ROPE_REF_POOL-row reference tables on CPU in $ROPE_IMAGE (no network)"
   docker run --rm --network none --user "$(id -u):$(id -g)" -e HOME=/tmp -v "$LX:/lakyfx:ro" -v "$B/reference:/reference:ro" \
     -v "$REF:/kit" "$ROPE_IMAGE" python3 /lakyfx/tensorfold/make_rope.py --reference /reference --kit /kit \
