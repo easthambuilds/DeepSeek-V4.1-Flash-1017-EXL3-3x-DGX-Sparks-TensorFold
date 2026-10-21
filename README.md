@@ -33,7 +33,11 @@ weights, runtime changes and settings that this recipe sets up, which we first s
 **GPU clocks capped at 2,000 MHz on all three** for every number here. Raw results are in the model's
 `provenance/logs/tp3a/`.
 
-**Status:** the recipe's own end-to-end run on our three Sparks is pending; this line will say when it has passed.
+**Status:** end-to-end run passed on our three Sparks on 2026-10-21. With the checkpoint and Engram shards already on
+disk, `./start.sh` checked them against the Hub, made the plan, the Engram cuts and the three rank caches, and set up all
+three Sparks in 41 minutes, then loaded in 62 s and answered the smoke test. The runtime build and RoPE tables (about two
+minutes) had run earlier that morning, in a first run that stopped on a bug since fixed. Its three rank caches are
+byte-identical to the hand-built ones the numbers above were measured on; their sha256 are pinned in `scripts/config.sh`.
 
 - **Decode, one stream** (Bertholomus AI's `kit_bench`, medians, MTP drafts on): 109.2 tok/s writing code and 71.2
   writing prose (set a). Our 2.9 bpw quant on two Sparks (TP2) at the same cap: 85.7 and 56.1.
